@@ -1,0 +1,121 @@
+---
+title: "AI Chat"
+description: "Ask any market question and get an answer grounded in real-time data — never hallucinated, always sourced."
+---
+
+The AI Chat is the core feature of ClearView Portal. Ask a question in plain language, and the system fetches real data from primary sources, analyzes it, and streams back a structured answer with charts, tables, and source attribution.
+
+## What you'll see
+
+When you send a message, the response streams in stages so you can follow the AI's reasoning in real time.
+
+### The streaming sequence
+
+<Tabs>
+  <Tab title="1. Plan">
+    The AI shows its thinking — which data sources it will consult and why. This is not a canned message; it's the actual reasoning the orchestrator uses to decide which agents to invoke.
+  </Tab>
+  <Tab title="2. Agent Status">
+    You see each agent light up as it starts fetching data. For example: "Derivatives Agent — fetching funding rates..." followed by "Technical Agent — analyzing BTC daily chart..."
+  </Tab>
+  <Tab title="3. Charts & Data">
+    As agents return results, charts and tables appear inline. These are rendered from real data — candlestick charts, bar charts, line charts, and data tables depending on the question.
+  </Tab>
+  <Tab title="4. Synthesis">
+    The AI writes its analysis, streaming word by word. It only uses data returned by the agents — it never generates prices or metrics from memory.
+  </Tab>
+  <Tab title="5. Sources">
+    Every response ends with source attribution: which agent provided each data point, which API endpoint was called, and when the data was fetched.
+  </Tab>
+</Tabs>
+
+<Warning>
+The AI will never invent market data. If an agent returns no data (API down, unsupported ticker, etc.), the AI will explicitly say "I don't have data for this" rather than guess.
+</Warning>
+
+### The 9 agents
+
+ClearView has nine specialized agents, each with access to different data. The AI automatically selects the right agents for your question — you don't need to know which one to call.
+
+<CardGroup cols={2}>
+  <Card title="Derivatives" icon="chart-bar">
+    Funding rates, open interest, taker buy/sell volume, and positioning data from Binance Futures.
+  </Card>
+  <Card title="Macro" icon="globe">
+    Cross-asset view — BTC and ETH spot prices (Binance), S&P 500, VIX, DXY (EODHD/FRED), and stablecoin supply (DefiLlama).
+  </Card>
+  <Card title="Signals" icon="signal">
+    Market positioning analysis from Binance Futures long/short ratios across multiple pairs.
+  </Card>
+  <Card title="Technical" icon="chart-candlestick">
+    Indicator analysis following an epistemic framework: regime (ADX) to trend (SMA/EMA/MACD) to momentum (RSI/Stoch) to volatility (Bollinger/ATR). Returns candlestick, MACD, and RSI charts.
+  </Card>
+  <Card title="TradFi" icon="landmark">
+    Traditional finance data — stock prices, fundamentals, economic calendar, earnings, forex, yield curve, and FRED macro indicators.
+  </Card>
+  <Card title="Advisor" icon="brain">
+    AI Financial Advisor with three modes: Deep Dive (8-section company analysis), Scanner (natural language stock screener), and Portfolio Analysis (parse and analyze your positions).
+  </Card>
+  <Card title="Quantitative" icon="calculator">
+    Statistical analysis on OHLCV data — return distributions, seasonality (monthly, weekly, and halving cycle), range compression detection, volatility regimes, and autocorrelation. All computed with pandas/numpy, never estimated.
+  </Card>
+  <Card title="Structure" icon="layer-group">
+    P1/P2 market structure system — directional bias from the temporal order of highs and lows. Includes fractal analysis (alignment across timeframes), flip risk, and distance targets.
+  </Card>
+  <Card title="On-Chain" icon="link">
+    Currently being migrated to a new data pipeline. Will include 23 proprietary metrics (MVRV, NUPL, SOPR, whale transactions, and more) once the migration is complete.
+  </Card>
+</CardGroup>
+
+### Example queries
+
+Here are questions that showcase each agent's capabilities:
+
+| What you want | Example query |
+|--------------|---------------|
+| Derivatives overview | "What's the funding rate and open interest for BTC?" |
+| Cross-asset context | "How are crypto and equities correlated right now?" |
+| Positioning read | "Are traders net long or short on ETH?" |
+| Technical analysis | "Give me a full technical analysis of BTC daily" |
+| Stock fundamentals | "Deep dive on AAPL — fundamentals, news, insider activity" |
+| Stock screening | "Find undervalued tech stocks with P/E under 20 and revenue growth above 15%" |
+| Statistical profile | "Show me BTC's return distribution and seasonality" |
+| Market structure | "What's the P1/P2 structure on BTC weekly?" |
+| Multi-agent synthesis | "Is this a good time to buy BTC? Consider derivatives, technicals, and macro." |
+
+<Tip>
+The last example — asking a broad question — is where ClearView shines. The AI will invoke multiple agents in parallel, cross-reference their data, and synthesize a unified view. You don't need to ask each agent separately.
+</Tip>
+
+### Chat history
+
+Your conversations are saved automatically. The sidebar shows your recent chats, and you can:
+
+- **Click any previous chat** to revisit the full conversation with all charts and data intact.
+- **Delete a single chat** by clicking the X icon next to it in the sidebar.
+- **Clear all chats** using the trash icon at the top of the chat history section.
+
+<Note>
+Chat history is tied to your session. Clearing your browser data will reset the sidebar, but the conversations remain stored server-side and will reappear on your next visit.
+</Note>
+
+## Data sources
+
+The AI Chat does not generate data from memory. Every number, chart, and metric in a response comes from one of these sources:
+
+| Source | What it provides |
+|--------|-----------------|
+| Binance REST (Spot) | BTC, ETH, and altcoin prices; historical OHLCV klines (up to 9 years) |
+| Binance REST (Futures) | Funding rates, open interest, long/short ratios, taker volume |
+| DefiLlama | Stablecoin supply and chain distribution |
+| EODHD | Stock prices, fundamentals, earnings, economic calendar, insider transactions, screener |
+| FRED | Macro indicators — GDP, CPI, unemployment, yield curve, Fed balance sheet, M2 |
+| Finnhub | Exchange market status (open/closed) |
+
+## Tips
+
+- **Be specific when you can.** "BTC funding rate" is faster than "tell me about Bitcoin derivatives" because the AI skips the planning step of figuring out what you want.
+- **Ask follow-up questions.** The AI remembers your conversation context. After a broad analysis, you can drill down: "What does the RSI divergence you mentioned imply for the next week?"
+- **Use the source block.** Every response ends with sources. If a number looks surprising, check which API and timestamp produced it — data can be delayed during high volatility.
+- **Multi-agent queries are the power feature.** Questions like "Compare BTC structure on daily and weekly with derivatives positioning" invoke 2-3 agents and produce cross-layer analysis you won't find on any single dashboard.
+- **The AI will ask for clarification when needed.** If your question is ambiguous (e.g., "analyze Apple" — the company or AAPL stock?), you'll see clickable options to disambiguate rather than a generic response.

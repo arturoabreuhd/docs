@@ -1,0 +1,103 @@
+---
+title: "Technical Analysis Agent"
+description: "Indicator-based analysis using a 5-layer epistemic framework -- regime, trend, momentum, volatility, and sentiment."
+---
+
+## Overview
+
+The Technical agent does not just list indicator values. It follows a **5-layer epistemic framework** where each layer conditions how the layers below it are interpreted. The market regime is determined first, and every subsequent indicator reading is contextualized by that regime.
+
+This is the key difference from a typical screener: RSI at 75 means something very different in a trending market than in a range-bound market. ClearView accounts for this automatically.
+
+## The 5-Layer Framework
+
+<Steps>
+  <Step title="Regime (ADX)">
+    **Is the market trending or ranging?** This is the most important determination because it changes how every other indicator should be read.
+
+    - **ADX above 25:** Trending market. Trend-following indicators (SMA, MACD) are reliable. Momentum oscillators hitting "overbought" levels are less meaningful -- trends can stay extended for long periods.
+    - **ADX below 20:** Range-bound market. Mean-reversion indicators (RSI, Bollinger Bands) are more useful. Trend signals will produce more false breakouts.
+    - **ADX 20-25:** Transitional zone. The market may be shifting between regimes. All signals should be interpreted with lower confidence.
+  </Step>
+  <Step title="Trend (SMA, EMA, MACD)">
+    **Which direction is the market moving?** Descriptive and lagging by nature.
+
+    - SMA 50 and SMA 200 positioning (golden cross vs. death cross)
+    - Price position relative to SMA 50 (above or below)
+    - SMA 50 slope direction (rising, falling, flat)
+    - MACD line, signal line, and histogram
+  </Step>
+  <Step title="Momentum (RSI, Stochastic, CCI)">
+    **How fast is it moving? Is momentum exhausting?**
+
+    - RSI (14) with regime-aware interpretation. In a trending market, RSI above 70 reflects strong momentum, not imminent reversal. In a range, it signals potential mean-reversion.
+    - Stochastic K/D for normalized momentum
+    - CCI (20) for trend extension vs. potential overbought/oversold readings
+    - The agent explicitly notes that Stochastic and RSI are the same epistemic category -- they do **not** provide independent confirmation of each other.
+  </Step>
+  <Step title="Volatility (Bollinger Bands, ATR)">
+    **How wide are the price swings?** Measures uncertainty, not direction.
+
+    - Bollinger Bands (20-period): upper, middle, lower, and band width
+    - ATR (14): absolute and percentage of price
+    - When ATR exceeds 3% of price, the agent flags that all signals carry wider uncertainty bands and position sizing matters more than entry precision.
+  </Step>
+  <Step title="Sentiment (News)">
+    **What is the narrative around this asset?**
+
+    - Aggregated news sentiment score from financial news sources
+    - Five most recent headlines with dates
+    - Sentiment is labeled bullish, bearish, or neutral based on the aggregate score
+    - The agent notes that sentiment scores reflect media narrative, not market positioning.
+  </Step>
+</Steps>
+
+## Charts
+
+A full analysis produces three interactive charts:
+
+| Chart | Type | What It Shows |
+|-------|------|---------------|
+| **Price** | Candlestick | 60-day price action with SMA 50 (blue) and SMA 200 (amber) reference lines |
+| **MACD** | Histogram | 60-day MACD histogram. Green bars = positive momentum, red bars = negative |
+| **RSI** | Line | 60-day RSI with overbought (70, red) and oversold (30, green) reference lines |
+
+## What You Can Ask
+
+The agent supports 6 intents, selected automatically based on your question:
+
+| Intent | Example Prompts |
+|--------|----------------|
+| **Full analysis** | "Full technical analysis of BTC", "TA for AAPL", "How does ETH look technically?" |
+| **Trend** | "What's the trend for ETH?", "Is AAPL in an uptrend?", "SMA analysis for TSLA" |
+| **Momentum** | "Is BTC overbought?", "RSI for NVDA", "Momentum check on ETH" |
+| **Volatility** | "How volatile is AAPL?", "Bollinger Bands for BTC", "ATR for MSFT" |
+| **News sentiment** | "What's the news sentiment for NVDA?", "Latest news on BTC" |
+| **Specific indicator** | "What's the RSI for BTC?", "Show me the MACD for TSLA" |
+
+## Cross-Layer Synthesis
+
+When running a full analysis, the agent produces a **cross-layer synthesis** that identifies:
+
+- **Agreements:** When multiple layers confirm the same thesis (e.g., trend and momentum both aligned bullish)
+- **Contradictions:** When layers conflict (e.g., momentum weakening despite intact uptrend -- potential RSI divergence)
+- **Limitations:** Context-specific caveats (e.g., "RSI above 70 is less significant in the current trending regime")
+
+This is the most valuable part of the analysis -- it highlights where the data tells a consistent story and where it raises questions.
+
+## Coverage
+
+The agent works for both crypto and traditional assets:
+
+- **Crypto:** BTC, ETH, SOL, and 30+ other tokens. Just use the ticker name (e.g., "BTC", "ETH").
+- **Stocks and indices:** Any ticker on EODHD (e.g., "AAPL", "MSFT", "TSLA", "NVDA").
+
+Data source: EODHD Technical Indicators API and EODHD News API.
+
+<Tip>
+Always start with a full analysis. It gives you the complete 5-layer picture in one query. If you ask for just RSI, you lose the regime context that tells you how to interpret it.
+</Tip>
+
+<Tip>
+Combine the Technical agent with Derivatives for crypto. Ask "What's the technical and derivatives setup for BTC?" to get both indicator analysis and funding/positioning data in one response.
+</Tip>

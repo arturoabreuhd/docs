@@ -1,0 +1,83 @@
+---
+title: "Calendar"
+description: "Upcoming economic events and earnings releases that could move markets."
+---
+
+The Calendar page shows you what's coming — the scheduled events that move markets. Knowing the calendar is the difference between being surprised by a CPI print and being positioned for it.
+
+## What you'll see
+
+The page is organized into two tabs: Economic Events and Earnings. Each shows upcoming releases grouped by day, with the most relevant details at a glance.
+
+<Tabs>
+  <Tab title="Economic Events">
+    Scheduled macro releases and central bank decisions: FOMC meetings, CPI, Non-Farm Payrolls, GDP, PMI, jobless claims, and dozens of other indicators from major economies.
+
+    Each event shows:
+    - **Date and time** of the release
+    - **Country** flag and name
+    - **Event name** and description
+    - **Impact level** — High, Medium, or Low
+    - **Values** — Actual (once released), Forecast (consensus), and Previous
+
+    Events are grouped by day so you can scan an entire week's risk calendar in seconds.
+  </Tab>
+  <Tab title="Earnings">
+    Upcoming corporate earnings releases from US-listed companies. Each entry shows:
+    - **Ticker code** (e.g., AAPL.US, MSFT.US)
+    - **Report date**
+    - **EPS estimate** (consensus) vs. **actual** (once reported)
+
+    Earnings from mega-cap tech and financial companies can shift overall market sentiment and spill into crypto within minutes of the release.
+  </Tab>
+</Tabs>
+
+### Impact classification
+
+<Warning>
+Impact levels (High, Medium, Low) are **classified by ClearView based on keyword matching**, not provided by the data source. The EODHD API does not include impact ratings. Our classification uses the event name to categorize — for example, any event containing "FOMC," "CPI," or "Non-Farm Payrolls" is automatically classified as High impact. This heuristic is reliable for major events but may occasionally misclassify obscure or country-specific indicators. Always verify high-impact events independently before trading around them.
+</Warning>
+
+### Events that matter most for crypto
+
+<CardGroup cols={2}>
+  <Card title="FOMC Meetings" icon="landmark">
+    Federal Reserve rate decisions and press conferences. The single highest-impact recurring event for all risk assets. Crypto can move 5-10% in the hour following a surprise decision.
+  </Card>
+  <Card title="CPI Release" icon="chart-column">
+    Consumer Price Index — the market's primary inflation gauge. A hotter-than-expected print strengthens the dollar and pressures risk assets; a cooler print does the opposite.
+  </Card>
+  <Card title="Non-Farm Payrolls" icon="users">
+    Monthly US jobs report. Strong employment = less pressure for Fed cuts = stronger dollar = headwind for crypto. Weak employment = the opposite.
+  </Card>
+  <Card title="Mega-Cap Earnings" icon="building">
+    AAPL, MSFT, NVDA, AMZN, GOOG, META. When these companies beat or miss, the entire equity market reacts — and crypto follows during high-correlation regimes.
+  </Card>
+</CardGroup>
+
+<Tip>
+The highest-risk moments are not the events themselves — they're the **first 15 minutes after a data release**. Algorithmic trading systems react instantly, creating sharp moves that can trigger liquidation cascades in crypto futures. If you hold leveraged positions, reduce exposure before high-impact events rather than trying to trade the reaction.
+</Tip>
+
+## Data sources
+
+| Metric | Source | Update frequency |
+|--------|--------|-----------------|
+| Economic events | EODHD — `/api/economic-events` | ~30 minutes |
+| Earnings releases | EODHD — `/api/earnings` | ~30 minutes |
+
+### Known limitations
+
+<Note>
+- **Earnings data does not include company names** — only ticker codes (e.g., "AAPL.US"). You'll need to recognize tickers or look them up separately.
+- **Impact levels are estimated** by keyword matching, not sourced from the API. See the warning above.
+- **Event times may vary.** Calendar data shows scheduled times, but releases can occasionally be delayed or moved. For critical events like FOMC, verify the time on the Federal Reserve's website.
+</Note>
+
+## Tips
+
+- **Check the calendar on Sunday night.** Scan the week ahead for high-impact events and plan your position sizing accordingly. Reducing leverage before FOMC, CPI, or NFP is a basic risk management practice.
+- **Fed meetings are crypto events.** Rate decisions, dot plot updates, and Powell press conferences move BTC as much as they move equities. The market reaction often takes 2-4 hours to fully develop — the initial spike is rarely the final move.
+- **Earnings season means higher correlation.** During the 4-6 weeks each quarter when major companies report, crypto-equity correlation tends to increase. A string of earnings misses from tech giants can drag BTC down even without any crypto-specific news.
+- **NFP is a DXY driver.** Non-Farm Payrolls primarily move the dollar, and the dollar move cascades into crypto. Watch DXY and USD/JPY on the [Markets](/platform/markets) page in the minutes after the release for real-time impact assessment.
+- **Use the AI Chat for event analysis.** Ask "What economic events are coming this week and how might they affect crypto?" and the TradFi Agent will pull the calendar and the AI will contextualize each event's potential market impact.

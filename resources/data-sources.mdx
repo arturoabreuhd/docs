@@ -1,0 +1,161 @@
+---
+title: Data Sources
+description: Every data point in ClearView comes from a verified source. Here's the complete list.
+---
+
+ClearView never generates data from memory. Every number you see — in dashboards, chat responses, and automated reports — is fetched from a primary source. This page is the complete reference for where the data comes from.
+
+---
+
+## Crypto Data
+
+<Tabs>
+  <Tab title="Binance (Spot)">
+    **What:** BTC and ETH spot prices, 24-hour price changes, and historical candlestick data (klines) going back up to 9 years.
+
+    **Used by:** Macro Agent, Quantitative Agent, Structure Agent, Technical Agent
+
+    | Endpoint | Data | Update Frequency |
+    |----------|------|-----------------|
+    | `/api/v3/ticker/24hr` | Current price, 24h change, volume | ~1 minute |
+    | `/api/v3/klines` | Historical OHLCV candlesticks | On request (up to 1,000 candles per call) |
+
+    Binance Spot is the source for all crypto price data in the platform. When you see a BTC or ETH price anywhere — in a dashboard, a chart, or an AI response — it comes from here.
+  </Tab>
+  <Tab title="Binance (Futures)">
+    **What:** Derivatives data from Binance USDT-margined futures — the most liquid crypto derivatives venue.
+
+    **Used by:** Derivatives Agent, Signals Agent
+
+    | Endpoint | Data | Update Frequency |
+    |----------|------|-----------------|
+    | `/fapi/v1/fundingRate` | Funding rate history (every 8h settlement) | Every 8 hours |
+    | `/fapi/v1/openInterest` | Current open interest | ~1 minute |
+    | `/futures/data/globalLongShortAccountRatio` | Long/short account ratio | Every 5 minutes |
+    | `/futures/data/takerlongshortRatio` | Taker buy/sell volume ratio | Every 5 minutes |
+
+    Funding rates settle every 8 hours (00:00, 08:00, 16:00 UTC). Between settlements, the rate shown is an estimate of the next settlement value.
+  </Tab>
+  <Tab title="DefiLlama">
+    **What:** Stablecoin market data — total supply, supply by chain, and individual stablecoin metrics.
+
+    **Used by:** Macro Agent
+
+    | Endpoint | Data | Update Frequency |
+    |----------|------|-----------------|
+    | `/stablecoins` | All stablecoins with supply and market cap | ~30 minutes |
+    | `/stablecoins/chains` | Stablecoin supply broken down by blockchain | ~30 minutes |
+
+    Stablecoin supply is a widely watched indicator of capital entering or leaving the crypto ecosystem.
+  </Tab>
+</Tabs>
+
+---
+
+## Traditional Finance Data
+
+<Tabs>
+  <Tab title="EODHD">
+    **What:** A comprehensive financial data provider covering equities, indices, forex, economic calendars, earnings, fundamentals, news, insider trades, and stock screening.
+
+    **Used by:** TradFi Agent, Technical Agent, Advisor Agent
+
+    | Category | Examples | Update Frequency |
+    |----------|---------|-----------------|
+    | Real-time quotes | Stock/ETF prices, index levels | ~1 minute |
+    | Fundamentals | P/E, market cap, revenue, earnings | ~4 hours |
+    | Economic calendar | FOMC, CPI releases, GDP | ~30 minutes |
+    | Earnings calendar | Earnings dates and estimates | ~30 minutes |
+    | News & sentiment | Company and market news | Real-time |
+    | Insider transactions | SEC filings | Daily |
+    | Screener | Filter stocks by financial criteria | On demand |
+
+    EODHD is the primary source for all traditional finance data in ClearView.
+  </Tab>
+  <Tab title="FRED (Federal Reserve)">
+    **What:** Official economic data from the Federal Reserve Bank of St. Louis — the authoritative source for US macroeconomic indicators.
+
+    **Used by:** TradFi Agent, Macro Agent
+
+    | Series | Indicator | Update Frequency |
+    |--------|-----------|-----------------|
+    | DGS2, DGS5, DGS10, DGS30 | Treasury yields (2Y, 5Y, 10Y, 30Y) | Daily |
+    | WALCL | Fed balance sheet (total assets) | Weekly |
+    | M2SL | M2 money supply | Monthly |
+    | CPIAUCSL | Consumer Price Index (CPI) | Monthly |
+    | PCEPI | Personal Consumption Expenditures (PCE) | Monthly |
+    | UNRATE | Unemployment rate | Monthly |
+    | GDP | Gross Domestic Product | Quarterly |
+    | DTWEXBGS | Trade-weighted US Dollar Index (DXY proxy) | Daily |
+
+    FRED data updates on the schedule of the underlying economic releases. GDP is quarterly, CPI is monthly, treasury yields are daily.
+  </Tab>
+  <Tab title="Finnhub">
+    **What:** Market status — whether exchanges are currently open or closed.
+
+    **Used by:** TradFi Agent
+
+    | Data | Coverage | Update Frequency |
+    |------|----------|-----------------|
+    | Exchange status | US markets (NYSE, NASDAQ) | ~1 minute |
+
+    Currently limited to US market status on the free tier.
+  </Tab>
+</Tabs>
+
+---
+
+## AI Models
+
+The AI layer processes data fetched by agents — it does not generate data.
+
+| Model | Role | What it does |
+|-------|------|-------------|
+| **Claude Sonnet 4.5** | Query planner | Reads your question and decides which agents to invoke. Fast and precise. |
+| **Claude Opus 4.6** | Response synthesizer | Takes all agent data and writes the final analysis with context and cross-references. |
+
+Both models are from Anthropic. The planner runs on every query (deciding the strategy), and the synthesizer runs when assembling the final response or generating Deep Synthesis reports.
+
+---
+
+## What's NOT included
+
+<AccordionGroup>
+  <Accordion title="On-chain data (blockchain metrics)">
+    Currently being rebuilt using Google BigQuery public datasets. When available, this will provide 23 proprietary metrics including MVRV, NUPL, HODL waves, realized cap, NVT ratio, and more — all computed from raw blockchain data rather than third-party providers like Glassnode or CryptoQuant.
+  </Accordion>
+  <Accordion title="ETF flow data">
+    No free, reliable API source exists for real-time ETF flow data (including Bitcoin and Ethereum spot ETFs). This may be added when a suitable data provider becomes available.
+  </Accordion>
+  <Accordion title="Cross-exchange derivatives">
+    All derivatives data comes from Binance only. Binance handles approximately 60% or more of global crypto futures volume, making it a reliable proxy for the broader derivatives market. Aggregating across smaller, less liquid exchanges would add noise without meaningful signal.
+  </Accordion>
+  <Accordion title="Crypto options data">
+    Crypto options (Deribit, etc.) are not currently covered. Equity options are partially available via EODHD for major US stocks, but coverage varies by ticker.
+  </Accordion>
+  <Accordion title="Real-time liquidation data">
+    Binance retired the public REST endpoint for liquidation data. Real-time liquidations will be available in a future update using WebSocket streaming, which provides the data as it happens rather than after the fact.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Caching and Freshness
+
+All data passes through a Redis cache layer. Cache durations are set to match how frequently each data type actually changes:
+
+| Data Type | Cache Duration | Rationale |
+|-----------|---------------|-----------|
+| Real-time prices | 1 minute | Prices move continuously |
+| Funding rates | A few minutes | Settles every 8 hours, estimates update frequently |
+| Calendar and earnings | 30 minutes | Event schedules change infrequently |
+| Fundamentals | 4 hours | Quarterly data, changes rarely |
+| FRED macro indicators | 6 hours | Monthly or quarterly releases |
+
+<Note>
+When a data source is temporarily unavailable (API down, rate limited), the platform shows a clear error state with a retry option. You will never see stale data presented as current. If the cache expires and the source is unreachable, the affected section shows an error message instead of outdated numbers.
+</Note>
+
+<Tip>
+Every AI response includes a **Sources** section at the bottom listing exactly which endpoints provided each data point. If you ever want to verify a number, the source attribution tells you where to look.
+</Tip>

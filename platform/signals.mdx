@@ -1,0 +1,78 @@
+---
+title: "Signals"
+description: "Market positioning data from Binance Futures — see whether traders are net long or net short across major crypto pairs."
+---
+
+The Signals page distills Binance Futures positioning data into a single, scannable view. For each pair, you see whether the market is leaning long or short — and by how much.
+
+## What you'll see
+
+The page displays positioning cards for major perpetual pairs, starting with **BTC** and **ETH** and extending to other actively traded contracts. Each card shows:
+
+- **Positioning Score** — A value from 0 to 100 representing the balance between long and short accounts on Binance Futures.
+- **Direction Label** — "Long Bias," "Short Bias," or "Neutral" based on the score.
+- **Color Coding** — Green for long bias, red for short bias, neutral for balanced.
+
+### How the score works
+
+The positioning score is derived from Binance's Global Long/Short Account Ratio. This metric counts the *number of accounts* holding net long vs. net short positions — it is not weighted by position size.
+
+| Score Range | Meaning | Color |
+|-------------|---------|-------|
+| 60 - 100 | Strong long bias — significantly more accounts are net long | Green |
+| 50 - 60 | Mild long bias | Light green |
+| 45 - 50 | Neutral — the market is roughly balanced | Gray |
+| 40 - 45 | Mild short bias | Light red |
+| 0 - 40 | Strong short bias — significantly more accounts are net short | Red |
+
+<Warning>
+A high long bias does **not** mean the price will go up. In fact, extreme long positioning (scores above 70) often precedes corrections because the market is crowded and vulnerable to a squeeze. Think of the score as a *crowding indicator*, not a directional predictor.
+</Warning>
+
+### Interpreting the signal
+
+<Tabs>
+  <Tab title="Contrarian read">
+    The most common professional use of positioning data is **contrarian**. When too many accounts are on one side, the other side of the trade becomes more attractive — because liquidations of the crowded side can fuel a sharp move in the opposite direction.
+
+    - Score above 65 → "Who's left to buy?" The long side may be exhausted.
+    - Score below 35 → "Who's left to sell?" The short side may be exhausted.
+  </Tab>
+  <Tab title="Trend confirmation">
+    In strong trends, positioning data confirms that the market has not yet reached extreme crowding. A rising price with a score between 50 and 60 suggests the trend has room to run — the market is not yet euphoric.
+  </Tab>
+  <Tab title="Cross-pair analysis">
+    When BTC, ETH, and altcoins all show strong long bias simultaneously, the entire market is leveraged in the same direction. This is a fragile state — a single liquidation cascade can trigger a correlated sell-off across all pairs.
+  </Tab>
+</Tabs>
+
+<Tip>
+The most actionable signal is a **divergence** between positioning and price. If BTC price is making new highs but the positioning score is declining (fewer accounts are long), it suggests smart money is quietly exiting while retail chases the move.
+</Tip>
+
+## Data sources
+
+| Metric | Source | Endpoint | Update frequency |
+|--------|--------|----------|-----------------|
+| Long/Short Account Ratio | Binance Futures | `/futures/data/globalLongShortAccountRatio` | Every few minutes |
+
+### What this data includes — and what it doesn't
+
+<Note>
+**Includes:** The number of Binance Futures accounts with net long positions vs. net short positions. This is an account count, not a dollar-weighted metric.
+
+**Does not include:**
+- Position sizes — a single whale account counts the same as a retail account with $100.
+- Other exchanges — this is Binance-only data. Positioning on Bybit, OKX, or CME is not reflected.
+- Spot market positioning — this only covers futures/perpetual contracts.
+
+These limitations matter. A positioning score of 70 (strong long bias) could mean many small retail accounts are long while a few large accounts are short. The dollar exposure might actually favor shorts. Always cross-reference with open interest and funding rate from the [Derivatives](/platform/derivatives) page for a more complete picture.
+</Note>
+
+## Tips
+
+- **Don't trade positioning data alone.** It is a context layer, not a signal generator. Use it alongside price action, derivatives data, and technical analysis.
+- **Extreme readings are more useful than moderate ones.** A score of 52 tells you almost nothing. A score of 75 tells you the market is dangerously one-sided.
+- **Compare across pairs.** If BTC is at 55 (mild long) but ETH is at 70 (strong long), ETH is more vulnerable to a positioning-driven pullback. This relative reading is often more useful than the absolute number.
+- **Use the AI Chat for synthesis.** Ask "What's the positioning setup across BTC and ETH, and how does it compare to derivatives data?" — the Signals Agent and Derivatives Agent will both be invoked, and the AI will cross-reference positioning with funding rates and open interest for a layered read.
+- **Track the score over time, not just the snapshot.** A score that moved from 40 to 60 in two days tells a different story than one that's been sitting at 60 for a week. The rate of change in positioning often matters more than the level.

@@ -1,0 +1,90 @@
+---
+title: Report Dashboard
+description: Set up automated market reports delivered on your schedule.
+---
+
+The Dashboard is your control center for automated reports. Access it from **Dashboard** in the sidebar. From here you create, manage, and review all your report subscriptions.
+
+## What you can do
+
+<CardGroup cols={2}>
+  <Card title="Create Subscriptions" icon="plus">
+    Choose frequency, report type, and delivery channel. Your reports start generating automatically.
+  </Card>
+  <Card title="View Active Subscriptions" icon="list-check">
+    See all your active subscriptions at a glance, including the next scheduled delivery time.
+  </Card>
+  <Card title="Report History" icon="clock-rotate-left">
+    Browse past reports with timestamps. Every report ever delivered to you is archived here.
+  </Card>
+  <Card title="Edit or Delete" icon="pen-to-square">
+    Update the frequency, type, or channel of any subscription — or remove it entirely.
+  </Card>
+</CardGroup>
+
+## Setting up a subscription
+
+<Steps>
+  <Step title="Open the Dashboard">
+    Click **Dashboard** in the left sidebar, or press `Cmd+K` and type "dashboard".
+  </Step>
+  <Step title="Click New Subscription">
+    The subscription form opens with three configuration options.
+  </Step>
+  <Step title="Choose frequency">
+    - **Daily** — delivered every morning (UTC)
+    - **Weekly** — delivered every Monday morning (UTC)
+  </Step>
+  <Step title="Choose report type">
+    - **Quick Summary** — fast, template-based market snapshot. Pure data, no AI. See [Report Types](/reports/report-types) for details.
+    - **Deep Synthesis** — comprehensive AI-generated analysis using 5 agents. See [Report Types](/reports/report-types) for details.
+  </Step>
+  <Step title="Select delivery channel">
+    - **Telegram** — direct message from the ClearView bot
+    - **Discord** — posted to a channel via webhook
+    - **Email** — formatted HTML email
+
+    Haven't connected a channel yet? See [Notification Channels](/reports/notifications) for setup instructions.
+  </Step>
+  <Step title="Save">
+    Click **Save**. Your first report will be delivered at the next scheduled time.
+  </Step>
+</Steps>
+
+## Multiple subscriptions
+
+You can create as many subscriptions as you need. Common setups:
+
+| Setup | Frequency | Type | Channel |
+|-------|-----------|------|---------|
+| Morning briefing | Daily | Quick Summary | Telegram |
+| Weekly review | Weekly | Deep Synthesis | Discord |
+| Email archive | Weekly | Deep Synthesis | Email |
+
+Each subscription runs independently. You could receive a quick daily snapshot on Telegram every morning and a deep weekly analysis on Discord every Monday — both generated automatically by the AI agents.
+
+## Managing subscriptions
+
+From the Dashboard, each active subscription shows:
+- **Report type** and **frequency**
+- **Delivery channel** (with the connected account)
+- **Next delivery** time (in UTC)
+- **Edit** and **Delete** actions
+
+Click **Edit** to change any parameter. Click **Delete** to remove the subscription. Deleted subscriptions stop immediately — no further reports will be generated.
+
+## Report history
+
+Below your active subscriptions, the Dashboard shows your **Report History** — a chronological list of every report delivered to you. Each entry shows:
+- Timestamp of generation
+- Report type (Quick Summary or Deep Synthesis)
+- Delivery channel
+- Status (delivered, failed, pending)
+
+<Note>
+All delivery times are in UTC. If you're in a different timezone, adjust accordingly. A "daily morning" report is generated at approximately 07:00 UTC.
+</Note>
+
+<Tip>
+Start with a Daily Quick Summary to Telegram. It takes 10 seconds to generate and gives you a complete market snapshot you can read in 30 seconds. Add a Weekly Deep Synthesis later once you see the value.
+</Tip>

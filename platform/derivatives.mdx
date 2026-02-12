@@ -1,0 +1,89 @@
+---
+title: "Derivatives"
+description: "Binance Futures data — funding rates, open interest, and taker volume for crypto perpetual contracts."
+---
+
+The Derivatives page shows real-time futures market data from Binance, giving you a read on leverage, positioning, and trade flow in the perpetual swap market.
+
+## What you'll see
+
+The page is organized into three sections, each with an interactive chart and summary statistics. The default symbol is **BTCUSDT** — you can switch to other perpetual pairs using the symbol selector.
+
+### Funding Rate
+
+<Tabs>
+  <Tab title="What it shows">
+    A time series chart of the funding rate for the selected perpetual contract. Each data point represents the rate at the 8-hour settlement window (00:00, 08:00, 16:00 UTC).
+  </Tab>
+  <Tab title="How to read it">
+    - **Positive funding** means long holders pay short holders. The market is net long and willing to pay a premium to maintain those positions.
+    - **Negative funding** means short holders pay long holders. The market is net short.
+    - **Near zero** means the market is balanced — neither side is paying a significant premium.
+  </Tab>
+  <Tab title="What to watch for">
+    Extreme values are the signal. Funding above **+0.05%** per 8 hours (roughly 55% annualized) historically precedes liquidation cascades or mean-reversion. Funding below **-0.03%** often marks capitulation and local bottoms.
+  </Tab>
+</Tabs>
+
+<Note>
+Between settlements, Binance publishes intermediate funding rate estimates (roughly every few minutes). These pre-settlement snapshots show where the rate is trending before it locks in — they are not errors, they are estimates.
+</Note>
+
+### Open Interest
+
+<Tabs>
+  <Tab title="What it shows">
+    The total value of outstanding futures contracts (in USD) for the selected pair. This is the sum of all open long and short positions.
+  </Tab>
+  <Tab title="How to read it">
+    - **Rising OI + rising price** = new money entering long positions. Trend confirmation.
+    - **Rising OI + falling price** = new money entering short positions. Downtrend conviction.
+    - **Falling OI + rising price** = shorts closing (short squeeze). The rally may lack staying power.
+    - **Falling OI + falling price** = longs closing (long liquidation). The sell-off may be nearing exhaustion.
+  </Tab>
+  <Tab title="What to watch for">
+    OI divergences from price are the most useful signal. If BTC makes a new high but OI is lower than the previous high, the breakout is suspect — fewer participants are backing it with leveraged positions.
+  </Tab>
+</Tabs>
+
+### Taker Buy/Sell Volume
+
+<Tabs>
+  <Tab title="What it shows">
+    The ratio of taker buy volume to taker sell volume in the futures market. Taker orders are market orders that "take" liquidity from the order book — they represent urgency.
+  </Tab>
+  <Tab title="How to read it">
+    - **Ratio above 1.0** = more aggressive buying than selling. Buyers are willing to cross the spread.
+    - **Ratio below 1.0** = more aggressive selling than buying. Sellers are urgent.
+    - The further from 1.0, the stronger the imbalance.
+  </Tab>
+  <Tab title="What to watch for">
+    Sustained taker buy dominance during a pullback is bullish — it means dip-buyers are aggressively stepping in. Conversely, sustained taker sell during a rally means sellers are fighting the trend, which can either cap the move or signal smart money distribution.
+  </Tab>
+</Tabs>
+
+<Warning>
+Taker volume shows *urgency*, not necessarily *conviction*. A large taker buy spike can be a stop-loss cascade on shorts (forced buying) rather than genuine bullish intent. Always cross-reference with funding rate and OI direction.
+</Warning>
+
+## Data sources
+
+All data on this page comes from Binance Futures REST API endpoints:
+
+| Metric | Endpoint | Update frequency |
+|--------|----------|-----------------|
+| Funding Rate | `/fapi/v1/fundingRate` | Settles every 8h; estimates update every few minutes |
+| Open Interest | `/fapi/v1/openInterest` | Every few minutes |
+| Taker Buy/Sell Volume | `/futures/data/takerlongshortRatio` | Every few minutes |
+
+<Note>
+Binance is the single source for all derivatives data on this page. We do not aggregate across exchanges. This means the data reflects Binance-specific dynamics — if a large position is opened on another exchange, it won't appear here. For most traders, Binance's dominance in futures volume makes this a reliable proxy for the broader market.
+</Note>
+
+## Tips
+
+- **Funding rate is mean-reverting.** It oscillates around zero over time. Extreme readings in either direction tend to correct — the question is whether the correction comes from a price move or a positioning unwind.
+- **Combine all three metrics for a complete picture.** Funding tells you the cost of holding positions, OI tells you the size of positions, and taker volume tells you the urgency of new orders. Together, they reveal the market's leverage profile.
+- **Use the AI Chat for deeper analysis.** Ask "What's the derivatives setup for BTC?" and the Derivatives Agent will pull all three metrics, compute the positioning score, and synthesize a directional read.
+- **Watch for OI flushes.** A sudden drop in OI (10%+ in hours) combined with a sharp price move is a liquidation event. The move is often overdone, and a reversal within 24-48 hours is common.
+- **The default BTCUSDT pair is the most liquid.** Funding rates and OI signals are most reliable for BTC and ETH. For smaller altcoin perpetuals, low liquidity can cause noisy funding rates that don't carry the same predictive weight.

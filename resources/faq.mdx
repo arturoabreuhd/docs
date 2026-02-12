@@ -1,0 +1,139 @@
+---
+title: FAQ
+description: Frequently asked questions about ClearView Portal.
+---
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What is ClearView?">
+    ClearView is a multi-agent AI platform for market analysis. Nine specialized agents fetch real-time data from primary sources — Binance, DefiLlama, EODHD, and FRED — and Claude AI synthesizes the data into actionable analysis. No data is generated from memory. Every number is sourced, every source is cited.
+  </Accordion>
+  <Accordion title="How is this different from ChatGPT for markets?">
+    ChatGPT generates responses from training data, which is months or years old. When it gives you a price, a funding rate, or a macro indicator, it is recalling — not fetching.
+
+    ClearView works differently. When you ask about BTC funding rates, an agent queries the Binance Futures API in real time. When you ask about CPI, an agent pulls the latest data from FRED. The AI only sees and analyzes data that was fetched seconds ago. Every response includes source attribution so you can verify the numbers independently.
+  </Accordion>
+  <Accordion title="Can I trust the AI's analysis?">
+    The **data** is always real and sourced from primary providers (exchanges, central banks, financial data vendors). You can verify any number using the cited sources.
+
+    The AI's **interpretation** of that data is informed analysis, not certainty. The AI identifies patterns, contextualizes data points, and highlights risks — but markets are inherently unpredictable. ClearView is not financial advice. Always verify key data points independently and consult a qualified financial professional before making trading decisions.
+  </Accordion>
+</AccordionGroup>
+
+## Data
+
+<AccordionGroup>
+  <Accordion title="How fresh is the data?">
+    It depends on the source:
+    - **Binance prices:** ~1 minute
+    - **Funding rates:** updated every few minutes (settles every 8 hours)
+    - **Positioning data:** every 5 minutes
+    - **Economic calendar:** every 30 minutes
+    - **FRED macro indicators:** daily to monthly (depends on the economic series)
+
+    See the [Data Sources](/resources/data-sources) page for the complete breakdown by source and data type.
+  </Accordion>
+  <Accordion title="Why is on-chain data unavailable?">
+    The on-chain data pipeline is being rebuilt using Google BigQuery public datasets for raw blockchain data. This approach lets ClearView compute 23 proprietary metrics (MVRV, NUPL, HODL waves, NVT ratio, and more) from first principles, without depending on expensive third-party providers. On-chain metrics will be available once the migration is complete.
+  </Accordion>
+  <Accordion title="Why only Binance for derivatives?">
+    Binance handles approximately 60% or more of global crypto futures volume. Using a single, dominant source provides cleaner signals than aggregating across less liquid exchanges where data quality is inconsistent. Binance's depth makes its funding rates, open interest, and positioning data representative of the broader market.
+  </Accordion>
+  <Accordion title="Where does the DXY value come from?">
+    EODHD does not provide a DXY ticker directly. ClearView proxies DXY from the FRED DTWEXBGS series (Trade Weighted US Dollar Index), which is the Federal Reserve's own dollar strength measure. It tracks closely with the ICE DXY index.
+  </Accordion>
+</AccordionGroup>
+
+## AI Chat
+
+<AccordionGroup>
+  <Accordion title="What can I ask the AI?">
+    Anything about financial markets that falls within the scope of the 9 agents:
+    - **Crypto:** prices, funding rates, open interest, positioning, stablecoin flows
+    - **Traditional finance:** stock prices, fundamentals, indices, forex, economic events, earnings
+    - **Technical analysis:** trend, momentum, volatility, regime assessment for any ticker
+    - **Financial advisory:** company deep dives, stock screening, portfolio analysis
+    - **Quantitative analysis:** return distributions, seasonality patterns, volatility regimes, statistical profiles
+    - **Market structure:** P1/P2 directional bias, fractal analysis, flip risk assessment
+
+    See the [Agent pages](/agents/overview) for detailed capabilities and example prompts for each agent.
+  </Accordion>
+  <Accordion title="Why does the AI sometimes say it doesn't have data?">
+    By design. If an agent cannot fetch data — because the API is down, the ticker doesn't exist in the data provider, or the feature is not yet available — the AI tells you explicitly rather than guessing or generating from memory. A response that says "I don't have data for this" is more useful than a response that invents numbers.
+  </Accordion>
+  <Accordion title="Can I ask follow-up questions?">
+    Yes. The AI maintains conversation context within a chat session. You can refine your question, dig deeper into a specific aspect, or change topics entirely. Each chat session is saved, and you can return to past conversations from the sidebar.
+  </Accordion>
+  <Accordion title="What are the best prompts?">
+    Be specific. The more context you give, the better the response:
+
+    | Instead of... | Try... |
+    |---------------|--------|
+    | "BTC analysis" | "Full technical analysis of BTC on the daily timeframe" |
+    | "Tell me about AAPL" | "Deep dive on AAPL — fundamentals, recent earnings, and insider activity" |
+    | "Market structure" | "What's the P1/P2 structure for ETH on the daily and weekly timeframes?" |
+    | "Seasonality" | "Show me BTC monthly seasonality patterns and halving cycle analysis" |
+    | "Find stocks" | "Scan for large-cap tech stocks with revenue growth above 20% and positive earnings surprises" |
+  </Accordion>
+  <Accordion title="What do the agent status indicators mean during a response?">
+    When you ask a question, you'll see the AI's plan and then status indicators for each agent:
+    - **Running** — the agent is fetching data from its sources
+    - **Complete** — the agent finished and returned data
+    - **Error** — the agent couldn't fetch data (usually a temporary API issue)
+
+    After all agents complete, the AI synthesizes the response using only the successfully fetched data.
+  </Accordion>
+</AccordionGroup>
+
+## Account
+
+<AccordionGroup>
+  <Accordion title="How do I get an account?">
+    ClearView is invite-only. An administrator will create your account and send you login credentials via email. There is no self-registration.
+  </Accordion>
+  <Accordion title="Can I change my password?">
+    Yes. On the login page, click **Forgot Password** and follow the standard reset flow. You'll receive a password reset link via email.
+  </Accordion>
+  <Accordion title="Who can access the Admin panel?">
+    Only users with the **admin** role can see and access the Admin panel. Regular users see the Dashboard for managing their report subscriptions and notification channels, but not administrative functions like inviting new users.
+  </Accordion>
+  <Accordion title="Can I use ClearView on mobile?">
+    Yes. The platform is fully responsive and works on mobile browsers. The sidebar collapses into a menu, charts adapt to smaller screens, and the AI chat is fully functional on mobile. There is no native app — use your mobile browser.
+  </Accordion>
+</AccordionGroup>
+
+## Reports
+
+<AccordionGroup>
+  <Accordion title="How do I set up automated reports?">
+    Go to **Dashboard** in the sidebar, click **New Subscription**, then choose your frequency (daily or weekly), report type (Quick Summary or Deep Synthesis), and delivery channel (Telegram, Discord, or email). See the [Report Dashboard](/reports/dashboard) page for step-by-step instructions.
+  </Accordion>
+  <Accordion title="What's the difference between Quick Summary and Deep Synthesis?">
+    **Quick Summary** is a fast, template-based data snapshot — no AI interpretation, just numbers. It pulls from 3 agents and generates in about 10 seconds. Good for daily morning scans.
+
+    **Deep Synthesis** uses 5 agents and Claude AI to generate a written analysis that connects derivatives, technicals, macro, and statistics. It takes 30-60 seconds to generate and includes the AI's interpretation of what the data means. Good for weekly reviews.
+
+    See [Report Types](/reports/report-types) for a full comparison.
+  </Accordion>
+  <Accordion title="When are reports delivered?">
+    Daily reports are generated at approximately 07:00 UTC every day. Weekly reports are generated at approximately 07:00 UTC every Monday. All times are UTC.
+  </Accordion>
+  <Accordion title="A report failed to deliver. What do I do?">
+    Check the Report History in your Dashboard — failed deliveries show with an error status. Common causes:
+    - **Discord:** the webhook URL was deleted or the channel was removed
+    - **Telegram:** the bot was blocked or the account was deactivated
+    - **Email:** the address bounced
+
+    Fix the underlying issue, verify your notification channel in the Dashboard, and the next scheduled report will deliver normally.
+  </Accordion>
+  <Accordion title="Can I get a report on demand instead of waiting for the schedule?">
+    Automated reports run on a fixed schedule. For on-demand analysis, use the **AI Chat** — it uses the same agents and the same AI model. Ask a broad question like "Give me a full market overview" and you'll get the equivalent of a Deep Synthesis in real time.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+<Info>
+Have a question not covered here? Ask the AI Chat — it can help with platform questions too, not just market analysis.
+</Info>

@@ -1,0 +1,69 @@
+---
+title: "Markets"
+description: "Traditional financial markets — major indices, forex pairs, and top movers from global exchanges."
+---
+
+The Markets page gives you a real-time view of traditional financial markets — the indices, currencies, and sectors that set the macro backdrop for crypto.
+
+## What you'll see
+
+The page is organized into four sections. Scan the indices first for overall risk sentiment, then check forex for dollar dynamics, and finally review the movers for sector-level signals.
+
+<CardGroup cols={2}>
+  <Card title="Index Tracker" icon="chart-line">
+    Major global indices — S&P 500, Nasdaq 100, Dow Jones, Russell 2000, FTSE 100, DAX, Nikkei 225, and more. Each shows the current price, daily change, and percentage move.
+  </Card>
+  <Card title="Forex" icon="money-bill-transfer">
+    Major currency pairs — EUR/USD, GBP/USD, USD/JPY, AUD/USD, and others. These reflect capital flows between major economies and directly influence the dollar's strength.
+  </Card>
+  <Card title="DXY (Dollar Index)" icon="dollar-sign">
+    The US Dollar Index, sourced from FRED's trade-weighted dollar index (DTWEXBGS). Updated daily — for intraday dollar moves, use the forex pairs as a proxy.
+  </Card>
+  <Card title="Top Movers" icon="ranking-star">
+    The biggest gainers and losers across major indices. Useful for spotting sector rotations or individual names driving broader market moves.
+  </Card>
+</CardGroup>
+
+### Market status
+
+The page shows whether major exchanges are currently open or closed. This uses Finnhub's market status API.
+
+<Note>
+Market status is currently available for **US markets only** due to Finnhub free tier limitations. London and Tokyo exchange status may return null. Check the exchange's own website for non-US market hours during holidays or special sessions.
+</Note>
+
+### How crypto traders use this page
+
+<Tabs>
+  <Tab title="Risk sentiment">
+    Equities lead crypto in risk-off events. If S&P 500 futures are down 2%+ pre-market, expect crypto to react within hours. Nasdaq is the more relevant index — tech-heavy, growth-oriented, and the closest analog to crypto's risk profile.
+  </Tab>
+  <Tab title="Dollar dynamics">
+    The forex section tells you what the dollar is doing *right now*, not just what it did yesterday (which is all DXY shows). USD/JPY is particularly important — sharp moves often signal carry trade unwinds that spill into all risk assets including crypto.
+  </Tab>
+  <Tab title="Sector rotation">
+    The top movers section can reveal sector rotation in real time. If defensives (utilities, healthcare) are leading and growth (tech, semiconductors) is lagging, the market is de-risking — and crypto is likely next.
+  </Tab>
+</Tabs>
+
+## Data sources
+
+| Metric | Source | Update frequency |
+|--------|--------|-----------------|
+| Global indices | EODHD Real-time API | ~1 minute during market hours |
+| Forex pairs | EODHD Real-time API | ~1 minute (24h market, Mon-Fri) |
+| DXY | FRED — `DTWEXBGS` series | Daily |
+| Top movers | EODHD Real-time API | ~1 minute during market hours |
+| Market status | Finnhub — `/stock/market-status` | ~1 minute (US markets only) |
+
+<Note>
+All data is fetched server-side through our API. Index prices update approximately every minute during trading hours. After market close, values reflect the last traded price until the next session opens.
+</Note>
+
+## Tips
+
+- **Forex moves often lead crypto moves by hours.** A sharp USD/JPY drop (yen strengthening) signals carry trade unwinding — leveraged capital is being recalled. Crypto, as the furthest-out risk asset, tends to feel this last but hardest.
+- **Compare index performance to crypto.** Correlation between BTC and Nasdaq increases during risk events and decreases during crypto-specific narratives (halving, ETF launches, regulatory news). Knowing the current correlation regime helps you decide whether to watch equities or ignore them.
+- **Watch Russell 2000 for liquidity signals.** Small caps are more sensitive to liquidity conditions than large caps. If the Russell is significantly underperforming the S&P 500, tightening liquidity is already hitting the most vulnerable assets — crypto may follow.
+- **Market status matters for volatility windows.** Crypto moves differently when US equity markets are open vs. closed. The highest-volatility window for BTC is typically the first hour after US market open (9:30-10:30 ET), when equity flows spill into crypto.
+- **Use the AI Chat for cross-market analysis.** Ask "How is the equity market affecting crypto right now?" and the TradFi and Macro agents will pull index data, correlations, and positioning to synthesize a cross-asset view.

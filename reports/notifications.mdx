@@ -1,0 +1,118 @@
+---
+title: Notification Channels
+description: Connect Telegram, Discord, or email to receive automated reports and alerts.
+---
+
+ClearView delivers reports through three channels. You can connect one or all of them — each subscription can use a different channel.
+
+<CardGroup cols={3}>
+  <Card title="Telegram" icon="paper-plane">
+    Direct messages from the ClearView bot. Best for mobile.
+  </Card>
+  <Card title="Discord" icon="discord">
+    Rich embeds posted to any channel via webhook. Best for teams.
+  </Card>
+  <Card title="Email" icon="envelope">
+    Formatted HTML emails. Best for archiving.
+  </Card>
+</CardGroup>
+
+---
+
+## Telegram
+
+Reports are delivered as direct messages from the ClearView Telegram bot.
+
+<Steps>
+  <Step title="Go to Dashboard">
+    Open **Dashboard** in the sidebar and find the **Notification Channels** section.
+  </Step>
+  <Step title="Click the Telegram link">
+    Click **Connect Telegram**. This opens the ClearView bot in Telegram with a unique deep link.
+  </Step>
+  <Step title="Press Start">
+    In Telegram, tap the **Start** button (or send `/start`). This automatically links your Telegram account to your ClearView profile.
+  </Step>
+  <Step title="Done">
+    Your Telegram is now connected. You'll see a confirmation in both Telegram and the Dashboard.
+  </Step>
+</Steps>
+
+<Note>
+The deep link contains a temporary token that expires after **10 minutes**. If it doesn't work, go back to the Dashboard and generate a new one.
+</Note>
+
+**How it works:** When you click the link, a one-time token connects your Telegram user ID to your ClearView account. From that point on, the bot sends reports directly to your Telegram DMs. No group chats, no channels — just private messages to you.
+
+---
+
+## Discord
+
+Reports are posted as rich embeds to a Discord channel of your choice using a webhook.
+
+<Steps>
+  <Step title="Create a webhook in Discord">
+    In your Discord server, go to **Server Settings** then **Integrations** then **Webhooks**. Click **New Webhook**.
+  </Step>
+  <Step title="Configure the webhook">
+    Give it a name (e.g., "ClearView Reports") and select the channel where you want reports posted. Click **Copy Webhook URL**.
+  </Step>
+  <Step title="Paste the URL in ClearView">
+    Go to **Dashboard** then **Notification Channels** then **Discord**. Paste the webhook URL and click **Save**.
+  </Step>
+  <Step title="Done">
+    Reports will now be posted to your selected Discord channel as formatted embeds with market data sections.
+  </Step>
+</Steps>
+
+<Tip>
+Create a dedicated `#market-reports` channel in your Discord server. This keeps automated reports organized and prevents them from cluttering your main discussion channels.
+</Tip>
+
+**What the reports look like in Discord:** Each report is posted as a rich embed with sections for each data category (prices, derivatives, positioning, macro). Quick Summaries are compact single-embed messages. Deep Syntheses are longer multi-section posts with the AI's written analysis.
+
+---
+
+## Email
+
+Reports are delivered as formatted HTML emails.
+
+<Steps>
+  <Step title="Go to Dashboard">
+    Open **Dashboard** in the sidebar and find the **Notification Channels** section.
+  </Step>
+  <Step title="Enter your email">
+    Type your email address in the **Email** field and click **Save**.
+  </Step>
+  <Step title="Done">
+    Reports will be delivered to your inbox as styled HTML emails.
+  </Step>
+</Steps>
+
+**Email format:** Reports arrive as clean HTML emails with proper formatting — tables for data, bold text for key figures, and clear section headers. They render well in Gmail, Outlook, Apple Mail, and most modern email clients.
+
+---
+
+## Managing channels
+
+You can update or disconnect any channel at any time from **Dashboard** then **Notification Channels**:
+
+- **Change a webhook URL** — paste the new URL and save
+- **Change your email** — type the new address and save
+- **Disconnect Telegram** — remove the connection (you'll need to re-link if you want to reconnect)
+
+<Warning>
+If you disconnect a channel that has active subscriptions, those subscriptions will fail to deliver until you reconnect or switch them to a different channel.
+</Warning>
+
+## Which channel should I use?
+
+| Channel | Best for | Pros | Cons |
+|---------|----------|------|------|
+| **Telegram** | Individual traders | Instant mobile notifications, easy to scan | Personal only, no team sharing |
+| **Discord** | Teams and groups | Shared visibility, webhook is simple | Requires a Discord server |
+| **Email** | Record keeping | Works everywhere, easy to search later | Can land in spam/promotions tab |
+
+<Tip>
+Most traders use Telegram for daily Quick Summaries (fast mobile scan) and Discord for weekly Deep Syntheses (shared with their team). Email works well as a backup archive.
+</Tip>

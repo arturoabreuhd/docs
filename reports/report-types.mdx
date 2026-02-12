@@ -1,0 +1,111 @@
+---
+title: Report Types
+description: Choose between a quick market summary and a comprehensive AI-powered deep synthesis.
+---
+
+ClearView offers two report types. Each serves a different purpose — pick the one that matches how you consume market information, or use both.
+
+---
+
+## Quick Summary
+
+A fast, template-based market snapshot. No AI involved — pure data pulled from primary sources and formatted into a structured template.
+
+### What's included
+
+| Section | Data Points |
+|---------|-------------|
+| **Prices** | BTC and ETH spot prices with 24h change |
+| **Derivatives** | Funding rate and direction (positive/negative) |
+| **Open Interest** | Current OI with change over 24h |
+| **Positioning** | Long/short ratio from Binance Futures |
+| **Stablecoins** | Total stablecoin supply with recent change |
+| **Macro** | DXY, VIX, and SPX levels |
+
+### How it's generated
+
+The system pulls data from 3 agents:
+1. **Derivatives Agent** — funding rates, open interest, positioning from Binance Futures
+2. **Macro Agent** — BTC/ETH prices from Binance Spot, DXY/VIX/SPX from EODHD/FRED
+3. **Signals Agent** — long/short ratio from Binance Futures
+
+Data is fetched, formatted into a fixed template, and delivered. No LLM is involved — this is a pure data pipeline.
+
+### Characteristics
+
+- **Generation time:** ~10 seconds
+- **Format:** Structured sections with numbers and directional arrows
+- **Interpretation:** None — data only, you draw your own conclusions
+- **Best for:** Daily morning briefing. Scan in 30 seconds, know where the market stands.
+
+---
+
+## Deep Synthesis
+
+A comprehensive, AI-generated market analysis. Five agents collect data, then Claude AI synthesizes a written report with context, cross-references, and implications.
+
+### What's included
+
+Everything in Quick Summary, plus:
+
+| Section | What the AI adds |
+|---------|-----------------|
+| **Technical Analysis** | Trend direction, momentum state, volatility assessment based on indicators (SMA, MACD, RSI, Bollinger Bands, ATR) |
+| **Statistical Context** | Where the current move ranks historically — percentile of daily returns, comparison to similar moves |
+| **Cross-Layer Synthesis** | Connections between derivatives positioning, price action, and macro context |
+| **Risk Assessment** | Key risks and scenarios to watch |
+| **Actionable Levels** | Price levels to monitor based on technical and statistical analysis |
+
+### How it's generated
+
+The system invokes 5 agents in parallel:
+1. **Derivatives Agent** — funding, OI, positioning
+2. **Macro Agent** — prices, stablecoins, macro levels
+3. **Signals Agent** — long/short positioning
+4. **Technical Agent** — indicator analysis across 5 layers (regime, trend, momentum, volatility, sentiment)
+5. **Quantitative Agent** — statistical analysis of historical price data
+
+All agent data is collected, then **Claude Opus 4.6** (the same model used in the Chat) synthesizes a written analysis. The AI cross-references data across agents — for example, connecting unusual funding rates with a momentum divergence and a macro shift.
+
+### Characteristics
+
+- **Generation time:** 30-60 seconds (5 parallel agent calls + LLM synthesis)
+- **Format:** Written analysis with data points embedded in context
+- **Interpretation:** Full AI analysis — what the data means, not just what the numbers are
+- **Best for:** Weekly comprehensive review, or any time you want the full picture
+
+---
+
+## Comparison
+
+| | Quick Summary | Deep Synthesis |
+|---|---|---|
+| **Agents used** | 3 | 5 |
+| **AI analysis** | No | Yes (Claude Opus 4.6) |
+| **Generation time** | ~10 seconds | 30-60 seconds |
+| **Content** | Data snapshot | Data + interpretation + context |
+| **Technical analysis** | Not included | Full 5-layer assessment |
+| **Statistical context** | Not included | Historical percentiles and comparisons |
+| **Cross-referencing** | Not included | Derivatives + price + macro connections |
+| **Best frequency** | Daily | Weekly |
+
+## Recommended setup
+
+<Tip>
+Use **Quick Summary** for daily updates and **Deep Synthesis** for your weekly review. The quick summary tells you *what happened*; the deep synthesis tells you *what it means*.
+</Tip>
+
+A practical setup:
+
+<Steps>
+  <Step title="Daily Quick Summary to Telegram">
+    Every morning, get a 30-second scan of market state on your phone. Check funding, positioning, and price levels before your day starts.
+  </Step>
+  <Step title="Weekly Deep Synthesis to Discord or Email">
+    Every Monday, get a comprehensive AI analysis that connects the dots across derivatives, technicals, and macro. Use it to frame your thinking for the week.
+  </Step>
+</Steps>
+
+<Note>
+Deep Synthesis uses the same AI pipeline as the Chat — the same models, the same agents, the same data sources. The only difference is it runs on a schedule instead of on-demand. If you like the quality of answers in Chat, you'll get the same quality in your automated reports.
+</Note>

@@ -1,0 +1,143 @@
+---
+title: "Quantitative Analysis Agent"
+description: "Statistical analysis of price data -- distributions, seasonality, range patterns, and volatility regimes."
+---
+
+## Overview
+
+The Quantitative agent computes exact statistics from historical price data using Python (pandas and numpy). Unlike agents that rely on the AI to estimate numbers, every value from this agent is the result of a deterministic computation on real OHLCV data from Binance.
+
+This is the most trustworthy agent for precise statistical claims. When it says the average BTC monthly return in October is +8.2%, that number was calculated from every October in the dataset, not estimated from memory.
+
+**Data source:** Binance spot klines, with up to 9 years of BTC daily data available (since 2017). Hourly and other intervals are also supported.
+
+## Four Intents
+
+### 1. Statistical Profile
+
+A complete return distribution analysis that tells you how an asset's price changes are distributed historically.
+
+**What it computes:**
+- Mean, median, and standard deviation of daily returns
+- Skewness (is the distribution tilted toward positive or negative returns?)
+- Kurtosis (how fat are the tails? higher = more extreme moves than a normal distribution predicts)
+- Percentiles (5th, 25th, 75th, 95th)
+- Percentage of positive days
+- Min and max single-day returns
+
+**Chart:** Histogram of daily returns showing the actual distribution shape, divided into 20 bins.
+
+**Example prompts:**
+- "Give me the statistical profile for BTC"
+- "BTC return distribution"
+- "Statistical analysis of ETH"
+
+<Accordion title="How to read the output">
+  **Skewness below zero** means the distribution has a longer left tail -- large negative moves are more common than equally large positive moves. BTC daily returns are typically negatively skewed.
+
+  **Kurtosis above 3** (excess kurtosis above 0) means fat tails -- extreme moves happen more often than a normal distribution would predict. For crypto, this number is usually high, meaning standard risk models that assume normal distributions will systematically underestimate tail risk.
+
+  **Positive day percentage** around 52-54% for BTC indicates a slight upward bias on average, but with high variance.
+</Accordion>
+
+### 2. Seasonality
+
+Monthly and day-of-week return patterns, plus BTC halving cycle analysis.
+
+**What it computes:**
+- Average return for each calendar month (Jan through Dec) with sample sizes and standard deviations
+- Average return for each day of the week (Monday through Sunday)
+- Current month return vs. historical average
+- BTC halving cycle position (days since last halving, which cycle year, historical pattern for that year)
+
+**Chart:** Bar chart showing average monthly returns, making seasonal patterns immediately visible.
+
+**Example prompts:**
+- "Show me BTC seasonality patterns"
+- "What's the best month to buy ETH?"
+- "How does BTC typically perform in February?"
+- "BTC halving cycle analysis"
+
+<Accordion title="BTC halving cycle context">
+  Bitcoin's block reward halves approximately every 4 years. The agent tracks where we are in the current cycle:
+
+  - **Year 1 post-halving:** Historically the accumulation phase with moderate gains
+  - **Year 2 post-halving:** Historically the strongest year with parabolic moves
+  - **Year 3 post-halving:** Historically the distribution and early bear phase
+  - **Year 4 post-halving:** Historically the bottoming phase before the next halving
+
+  The most recent halving occurred on April 20, 2024.
+</Accordion>
+
+<Warning>
+Seasonality is probabilistic, not deterministic. "September is historically weak for BTC" does not mean this September will be weak. Sample sizes for monthly data are small (typically 7-9 data points per month), so confidence intervals are wide.
+</Warning>
+
+### 3. Range Analysis
+
+How the current price range compares to historical ranges, with compression detection.
+
+**What it computes:**
+- Weekly and monthly range as percentage of opening price (current vs. historical average)
+- Percentile of the current range relative to all historical ranges
+- **Compression detection:** Flags when the current range is less than 50% of the historical average
+- **Expansion probability:** After historically compressed weeks, what percentage were followed by above-average range expansion
+
+**Chart:** Bar chart comparing current weekly and monthly ranges against their historical averages.
+
+**Example prompts:**
+- "Is BTC range compressed right now?"
+- "What's the historical range for ETH?"
+- "BTC range analysis"
+
+<Tip>
+Range compression is one of the most actionable signals in the quantitative toolkit. Low-volatility periods reliably precede high-volatility moves, though the direction of the breakout is not predictable from compression alone. Pair with the Structure agent's directional bias for context.
+</Tip>
+
+### 4. Regime Analysis
+
+Classifies the current volatility environment and tracks how it transitions over time.
+
+**What it computes:**
+- Current volatility regime: low, normal, or high (based on ATR percentile rank)
+- ATR as percentage of price with percentile ranking
+- Regime thresholds (25th and 75th percentile boundaries)
+- Historical regime periods (last 20 transitions with duration in days)
+- Transition probabilities (how often low volatility leads to high volatility, and vice versa)
+- Average duration of low-volatility and high-volatility periods
+
+**Chart:** Line chart of ATR(14) as percentage of price over the past year, with reference lines at the low-volatility (P25) and high-volatility (P75) boundaries.
+
+**Example prompts:**
+- "What's the current volatility regime for BTC?"
+- "Is BTC volatility high or low right now?"
+- "How long do low-volatility periods last for BTC?"
+
+<Accordion title="How regimes affect your analysis">
+  - **Low volatility:** Expect a range expansion. Direction is uncertain until the breakout occurs. This is where the Structure agent's bias becomes valuable for directional context.
+  - **Normal volatility:** Standard risk parameters apply. No regime-specific adjustments needed.
+  - **High volatility:** Position sizing and wider stops matter more than entry precision. ATR-based stops should be wider during these periods.
+</Accordion>
+
+## Full Statistical Profile
+
+When you ask for a statistical profile (the default intent), the agent runs **all computations** and returns:
+
+| Section | What It Contains |
+|---------|-----------------|
+| Return distribution | Mean, median, std dev, skewness, kurtosis, percentiles |
+| Range analysis | Weekly/monthly ranges, compression detection |
+| Seasonality | Monthly returns, day-of-week returns, halving cycle |
+| Regime | Current volatility classification, transitions |
+| Streaks | Consecutive red/green candle statistics, mean reversion probabilities |
+| Correlation | Volume-direction correlation, autocorrelation at multiple lags, volatility clustering |
+
+The agent also reports exact computation time (typically under 100ms for 3 years of daily data).
+
+<Tip>
+Combine the Quantitative agent with the Structure agent for a complete analytical picture. Ask "Give me the statistical profile and market structure for BTC" to get both neutral statistics and directional bias in one query.
+</Tip>
+
+<Info>
+This agent is different from the Technical agent. **Technical** uses current indicator values (RSI, MACD, Bollinger) to assess the present state. **Quantitative** uses historical price data to compute statistical distributions and patterns. They answer different questions and complement each other.
+</Info>

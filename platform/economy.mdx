@@ -1,0 +1,108 @@
+---
+title: "Economy"
+description: "Macroeconomic indicators from the Federal Reserve — yield curve, inflation, liquidity, and labor market data."
+---
+
+The Economy page is the deepest macro layer in ClearView — Federal Reserve data that drives the multi-month cycles in risk assets, including crypto.
+
+## What you'll see
+
+The page presents four sections of FRED data, each covering a different dimension of the US economy. These are not daily-trading indicators — they're the structural forces that determine whether markets are in a risk-on or risk-off regime for weeks to months.
+
+### Yield Curve
+
+<Tabs>
+  <Tab title="What it shows">
+    An interactive chart plotting 8 US Treasury maturities: 1-month, 3-month, 6-month, 1-year, 2-year, 5-year, 10-year, and 30-year. The **2s10s spread** (10Y minus 2Y yield) is highlighted as the key summary number.
+  </Tab>
+  <Tab title="How to read it">
+    - **Normal curve** (upward sloping, 2s10s positive) = the economy is healthy. Lenders demand more compensation for longer-term risk. Risk assets generally perform well.
+    - **Inverted curve** (2s10s negative, 2Y yield higher than 10Y) = the bond market is pricing a recession. Historically one of the most reliable recession signals.
+    - **Steepening after inversion** (2s10s going from negative back to positive) = the recession is likely arriving soon. This is often the highest-risk phase — the lag between un-inversion and recession onset is typically 3-12 months.
+  </Tab>
+  <Tab title="What to watch for">
+    The transition matters more than the level. A curve that has been inverted for months and suddenly steepens often precedes the actual economic downturn. This is counterintuitive — the un-inversion feels like "things are getting better" but historically signals "things are about to get worse."
+  </Tab>
+</Tabs>
+
+<Warning>
+The yield curve is a **long-duration signal**. It does not predict next week's BTC price. It tells you whether the macro backdrop over the next 6-18 months favors risk assets or not. Don't use it for day trading — use it for position sizing and portfolio allocation.
+</Warning>
+
+### Macro Snapshot
+
+<CardGroup cols={2}>
+  <Card title="GDP Growth" icon="chart-line">
+    Quarterly real GDP growth rate. The broadest measure of economic output. Above 2% is healthy; below 0% for two consecutive quarters is the textbook definition of recession.
+  </Card>
+  <Card title="CPI & Inflation" icon="fire">
+    Consumer Price Index year-over-year. The Fed's primary mandate is controlling this number. Above the 2% target = tighter policy = headwind for risk assets.
+  </Card>
+  <Card title="Unemployment" icon="user-slash">
+    Unemployment rate. Low unemployment (~3-4%) supports consumer spending and risk appetite. Rising unemployment triggers fear of recession and risk-off flows.
+  </Card>
+  <Card title="Fed Funds Rate" icon="landmark">
+    The Federal Reserve's target rate. The most important single number in finance. Higher rates = tighter financial conditions = headwind for speculative assets including crypto.
+  </Card>
+</CardGroup>
+
+The snapshot includes 15 FRED indicators in total, covering employment, output, prices, and monetary policy. Each shows the latest value, prior value, and the series trend.
+
+### Fed Liquidity
+
+<Tabs>
+  <Tab title="What it shows">
+    Two time series spanning the last 2 years:
+    - **WALCL** — the Federal Reserve's total balance sheet. When the Fed buys assets (QE), this grows. When it sells (QT), this shrinks.
+    - **M2SL** — the M2 money supply. The total amount of money circulating in the US economy including checking accounts, savings, and money market funds.
+  </Tab>
+  <Tab title="How to read it">
+    - **Expanding balance sheet + growing M2** = the Fed is adding liquidity. Historically correlated with risk asset rallies — BTC's biggest bull runs (2020-2021) coincided with the fastest balance sheet expansion in history.
+    - **Shrinking balance sheet + flat M2** = Quantitative Tightening. Liquidity is being drained from the system. Risk assets face headwinds, and the most speculative assets (including crypto) feel it first.
+  </Tab>
+  <Tab title="What to watch for">
+    The **rate of change** matters more than the level. A balance sheet that's shrinking but slowing the pace of reduction is a bullish signal — it means tightening is easing. BTC has historically correlated with global M2 with approximately a 3-month lag.
+  </Tab>
+</Tabs>
+
+### Inflation
+
+<Tabs>
+  <Tab title="What it shows">
+    Two 2-year time series:
+    - **CPI** (Consumer Price Index) — year-over-year change. The headline inflation number that markets react to on release day.
+    - **PCE** (Personal Consumption Expenditures) — year-over-year change. The Fed's *preferred* inflation measure, which tends to run slightly lower than CPI.
+  </Tab>
+  <Tab title="How to read it">
+    - **CPI/PCE trending down toward 2%** = the Fed can consider cutting rates. This is bullish for risk assets.
+    - **CPI/PCE stuck above 3%** = the Fed will keep rates higher for longer. This constrains liquidity and weighs on speculative assets.
+    - **CPI/PCE re-accelerating** = the worst-case scenario. Rate hikes come back on the table, and all risk assets reprice.
+  </Tab>
+</Tabs>
+
+<Tip>
+The Fed watches PCE more than CPI, but the market reacts to CPI more dramatically because it's released first. If CPI comes in hot, expect an immediate reaction in crypto. Then watch the PCE release 1-2 weeks later — if PCE tells a different story, the CPI reaction may reverse.
+</Tip>
+
+## Data sources
+
+| Metric | Source | Update frequency |
+|--------|--------|-----------------|
+| Yield curve (8 maturities) | FRED — DGS1MO, DGS3MO, DGS6MO, DGS1, DGS2, DGS5, DGS10, DGS30 | Daily |
+| Macro snapshot (15 series) | FRED — GDP, CPI, unemployment, Fed Funds, and 11 others | Varies: monthly (CPI), quarterly (GDP) |
+| Fed balance sheet | FRED — `WALCL` | Weekly |
+| M2 money supply | FRED — `M2SL` | Monthly |
+| CPI inflation | FRED — `CPIAUCSL` | Monthly |
+| PCE inflation | FRED — `PCEPI` | Monthly |
+
+<Note>
+FRED data is released with a lag. CPI is typically ~2 weeks after the reference period. GDP is ~1 month after the quarter ends. The values on this page reflect the latest available data, not real-time conditions. Check the [Calendar](/platform/calendar) page for the exact release date of the next update.
+</Note>
+
+## Tips
+
+- **The 2s10s spread is the most-watched recession indicator in finance.** When it un-inverts (goes from negative back to positive) after a sustained inversion, pay close attention. Historically, the recession follows within 3-12 months — and risk assets often sell off hard during the actual recession even if they rallied during the inversion.
+- **Fed balance sheet and M2 are the "liquidity" numbers that drive risk asset cycles.** BTC's correlation with global M2 (with a ~3-month lag) has been one of the most consistent macro relationships in crypto. When M2 is expanding, BTC tends to follow. When M2 contracts, so does BTC.
+- **Don't over-interpret single data points.** One hot CPI print doesn't mean inflation is re-accelerating. One weak GDP print doesn't mean recession. FRED data is noisy — look at 3-month trends, not individual releases.
+- **Use this page for regime identification, not timing.** The Economy page tells you whether you're in a risk-on or risk-off macro regime. It does not tell you when to buy or sell this week. Combine it with [Derivatives](/platform/derivatives) and the [AI Chat](/platform/chat) for timing.
+- **Ask the AI for interpretation.** The numbers on this page are dense. Ask "What does the current macro environment mean for crypto?" and the Macro Agent will pull all these indicators and synthesize them into a narrative with the nuance that raw numbers can't convey.

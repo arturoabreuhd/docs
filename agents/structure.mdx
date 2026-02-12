@@ -1,0 +1,179 @@
+---
+title: "Market Structure Agent"
+description: "P1/P2 directional bias -- determining which extreme formed first to identify the path of least resistance."
+---
+
+## Overview
+
+The Structure agent implements the **P1/P2 framework**, a method for determining directional bias from the temporal order of price extremes within a time period. This is not traditional "market structure" (higher highs, higher lows). It is a specific, rule-based system with 7 governing laws.
+
+The core question is simple: **within any given period, which extreme formed first?**
+
+## Core Concept
+
+In every time period (hour, day, week), the market forms a high and a low. The P1/P2 system identifies which extreme formed first using sub-period candles:
+
+- **P1** = the extreme that formed first in the period
+- **P2** = the extreme that formed second in the period
+
+<Tabs>
+  <Tab title="Bullish Structure">
+    The **low formed first** and the **high formed second**.
+
+    P1 is the low. P2 is the high. The market moved upward during this period.
+
+    The bias is bullish because the market's natural path during this period was from low to high.
+  </Tab>
+  <Tab title="Bearish Structure">
+    The **high formed first** and the **low formed second**.
+
+    P1 is the high. P2 is the low. The market moved downward during this period.
+
+    The bias is bearish because the market's natural path during this period was from high to low.
+  </Tab>
+</Tabs>
+
+### How Temporal Order Is Determined
+
+The agent uses **sub-period candles** to determine which extreme formed first:
+
+| Analysis Timeframe | Sub-Period Candles Used |
+|---------------------|------------------------|
+| Weekly | 4-hour candles (~42 per week) |
+| Daily | 1-hour candles (24 per day) |
+| 4-hour | 15-minute candles (16 per period) |
+| 1-hour | 5-minute candles (12 per period) |
+
+For example, to determine daily P1/P2, the agent looks at all 24 hourly candles within the day and identifies whether the daily high or the daily low occurred first chronologically.
+
+## The 7 Laws
+
+The P1/P2 system follows 7 deterministic laws:
+
+| Law | Name | Rule |
+|-----|------|------|
+| 1 | **Existence** | Every period has a P1 (first extreme) and a P2 (second extreme) |
+| 2 | **Temporal Order** | Which extreme formed first determines the directional bias |
+| 3 | **Immutability** | P1 does not change within the same system -- once the first extreme is established, it holds |
+| 4 | **Flexibility** | P2 can extend while P1 holds (e.g., the market can make new highs while the day's low remains intact) |
+| 5 | **Reset** | When P1 is broken (price moves beyond it), the old P2 becomes the new P1, and the bias inverts |
+| 6 | **Directional Bias** | P1 = low implies bullish bias; P1 = high implies bearish bias |
+| 7 | **Fractal Coherence** | The same rules apply identically on every timeframe (1H, 4H, Daily, Weekly) |
+
+## Five Intents
+
+### 1. Current State
+
+Shows the current P1/P2 levels and directional bias on daily and weekly timeframes.
+
+**What it returns:**
+- P1 and P2 price levels for today and this week
+- Bias direction (bullish or bearish) for each timeframe
+- Alignment status (do daily and weekly agree?)
+- Flip risk assessment for the daily timeframe
+- Candlestick chart with P1/P2 reference lines
+
+**Example prompts:**
+- "What's the P1/P2 for BTC daily?"
+- "Is BTC bullish today?"
+- "What's the current structure for ETH?"
+
+### 2. Time Analysis
+
+When do P1 and P2 typically form within a period?
+
+**What it returns:**
+- Distribution of P1 formation times (e.g., what percentage of daily P1 levels form in the first 4 hours vs. the last 4 hours)
+- Bar chart showing P1 formation time distribution
+
+**Example prompts:**
+- "When does P1 typically form for BTC on the daily?"
+- "P1 time distribution"
+- "When does the daily low usually form?"
+
+### 3. Distance Analysis
+
+How far does price typically move from the open to P1 and P2?
+
+**What it returns:**
+- Confidence targets at 90%, 80%, 70%, 60%, 50%, and 40% probability levels
+- Separate targets for bullish and bearish bias periods
+- Based on the current bias direction, shows the most relevant targets
+
+**Example prompts:**
+- "What's the typical P1 target for BTC?"
+- "P1/P2 confidence targets"
+- "How far does the daily low usually form from the open?"
+
+### 4. Summary
+
+A comprehensive structure report combining current state, flip risk, P2 probability, and distance targets.
+
+**What it returns:**
+- Everything from Current State
+- Distance targets for the current bias direction
+- Full flip risk analysis
+- Historical P1/P2 statistics
+
+**Example prompts:**
+- "Give me a BTC structure summary"
+- "Full P1/P2 report"
+- "BTC structure report"
+
+### 5. Fractal Analysis
+
+Multi-timeframe alignment across H1, H4, Daily, and Weekly.
+
+**What it returns:**
+- P1/P2 and bias for all four timeframes
+- Alignment status: are all timeframes pointing in the same direction?
+- Candlestick chart with daily P1/P2 levels
+
+**Example prompts:**
+- "Is BTC structure aligned across timeframes?"
+- "Fractal analysis for ETH"
+- "Multi-timeframe P1/P2 alignment"
+
+<Tip>
+**Fractal alignment is the strongest signal.** When daily and weekly structure agree on direction, the bias is significantly more reliable than either timeframe alone.
+</Tip>
+
+## Flip Risk
+
+The agent calculates how likely the current structure is to flip (P1 gets broken, bias inverts). This is one of the most important outputs.
+
+For BTC on the daily timeframe, **flip risk is historically high (~84%)**. This means:
+
+- The daily P1/P2 bias reverses most days
+- Daily structure alone is an unreliable directional signal
+- Confirmation is essential before acting on daily P1/P2
+
+**What reduces flip risk:**
+- Weekly timeframe alignment (fractal analysis)
+- More time elapsed in the current structure without a flip
+- Greater distance from the P1 extreme (price has moved significantly in the bias direction)
+
+<Warning>
+P1/P2 analysis is a bias framework, not a prediction tool. The daily timeframe has high flip risk (~84% for BTC), meaning the structure frequently reverses. Always use multi-timeframe confirmation and consider time and distance analysis before acting on P1/P2 signals.
+</Warning>
+
+## Practical Usage
+
+<AccordionGroup>
+  <Accordion title="When is P1/P2 most useful?">
+    On the **weekly timeframe**, where structures are more persistent and flip risk is lower. The daily timeframe provides real-time context, but the weekly sets the dominant bias.
+  </Accordion>
+  <Accordion title="How should I handle high flip risk?">
+    Use the fractal intent to check multi-timeframe alignment. When daily, 4H, and weekly all agree, the signal is substantially more reliable than any single timeframe. Also check time and distance analysis -- P1/P2 structures that have survived for longer and moved further from the initial extreme are more likely to persist.
+  </Accordion>
+  <Accordion title="How is this different from the Technical agent?">
+    Technical uses lagging indicators (RSI, MACD, SMA) to describe the current state. Structure uses temporal order of extremes to determine directional bias. They answer different questions and work well together. Ask "What's the BTC structure and technical setup?" to get both.
+  </Accordion>
+  <Accordion title="How is this different from the Quantitative agent?">
+    Quantitative computes neutral statistics (distributions, seasonality, regimes). Structure produces a directional bias (bullish or bearish). They are intentionally kept separate to avoid contaminating neutral statistical analysis with directional assumptions.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+The most complete structure analysis combines the Summary and Fractal intents. Ask "BTC structure summary and fractal alignment" to get current state, flip risk, distance targets, and multi-timeframe confirmation in a single query.
+</Tip>

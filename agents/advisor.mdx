@@ -1,0 +1,143 @@
+---
+title: "Financial Advisor Agent"
+description: "Deep dives on any stock, market scanning with natural language filters, and portfolio analysis."
+---
+
+## Overview
+
+The Advisor is the most data-intensive agent in ClearView. While other agents focus on one data dimension, the Advisor pulls from 6+ data endpoints simultaneously to produce comprehensive research that would normally require checking multiple platforms.
+
+It operates through three distinct intents: **Deep Dive**, **Scanner**, and **Portfolio Analysis**.
+
+## Deep Dive
+
+A comprehensive, multi-section analysis of any single stock or crypto asset. This is your pre-earnings research tool, your due diligence companion, and your starting point for any position you are evaluating.
+
+### What It Covers
+
+<CardGroup cols={2}>
+  <Card title="Price & Valuation" icon="chart-line">
+    Current price, 52-week high/low, P/E, forward P/E, PEG ratio, price-to-book, price-to-sales, beta
+  </Card>
+  <Card title="Financials & Growth" icon="chart-bar">
+    Revenue TTM, EPS, revenue per share, profit margin, operating margin
+  </Card>
+  <Card title="Profitability" icon="percent">
+    Return on equity, return on assets, dividend yield, dividend per share, short ratio
+  </Card>
+  <Card title="Analyst Ratings" icon="users">
+    Target price, strong buy/buy/hold/sell/strong sell distribution
+  </Card>
+  <Card title="Insider Activity" icon="building-columns">
+    Recent insider transactions (last 10), net buy vs. sell summary with transaction values
+  </Card>
+  <Card title="News & Sentiment" icon="newspaper">
+    Five most recent headlines, aggregated sentiment score (bullish/neutral/bearish)
+  </Card>
+  <Card title="Options Flow" icon="arrows-left-right">
+    Put/call ratio for the nearest expiration, total calls and puts
+  </Card>
+  <Card title="Upcoming Catalysts" icon="calendar">
+    Next earnings date and EPS estimate (scans the next 90 days)
+  </Card>
+</CardGroup>
+
+The deep dive also produces a **52-week candlestick chart** showing the full price history for the past year.
+
+### Example Prompts
+
+- "Give me a deep dive on AAPL"
+- "Analyze NVDA in detail"
+- "Tell me everything about TSLA"
+- "Deep dive on BTC"
+
+<Note>
+Options data availability is limited. EODHD returns no data for many tickers (particularly non-US and crypto). When options data is unavailable, the agent omits that section rather than showing empty data.
+</Note>
+
+## Scanner
+
+Describe what you are looking for in plain English, and the agent translates your criteria into a market screen, runs it, and enriches the results with real-time prices and fundamentals.
+
+### How It Works
+
+<Steps>
+  <Step title="You describe what you want">
+    Use natural language: "Find large-cap tech stocks with low P/E" or "Show me high-dividend stocks above $50."
+  </Step>
+  <Step title="Agent builds screener filters">
+    Your description is translated into structured filters: sector, market cap range, dividend yield, exchange. The screener searches US-listed equities.
+  </Step>
+  <Step title="Results are enriched">
+    Each matching stock is enriched with real-time price data and fundamentals (market cap, P/E, dividend yield, sector). Results that require P/E filtering are post-filtered since the screener API does not support direct P/E queries.
+  </Step>
+  <Step title="You receive a ranked table">
+    Up to 10 matching stocks with key metrics, sorted by market capitalization by default.
+  </Step>
+</Steps>
+
+### Example Prompts
+
+- "Find large-cap tech stocks with P/E under 20"
+- "Show me high-dividend stocks above $50"
+- "Screen for beaten-down growth stocks"
+- "Find healthcare stocks with high margins"
+
+### Supported Filters
+
+| Filter | How to Express It |
+|--------|-------------------|
+| Sector | "tech stocks", "healthcare companies", "financial stocks" |
+| Market cap | "large-cap", "above $10B market cap", "small-cap" |
+| Dividend yield | "dividend above 3%", "high-dividend" |
+| P/E ratio | "P/E under 20", "low P/E" |
+| Price | "stocks above $50", "under $100" |
+
+## Portfolio Analysis
+
+Paste your positions in any format, and the agent returns a structured analysis of your portfolio with concentration alerts and sector breakdown.
+
+### Input Formats
+
+The agent parses positions flexibly. All of these work:
+
+<Tabs>
+  <Tab title="Simple list">
+    "Analyze my portfolio: 100 AAPL, 50 MSFT, 200 TSLA, 0.5 BTC"
+  </Tab>
+  <Tab title="Descriptive">
+    "I have 100 shares of Apple, 50 Microsoft, and 2 Bitcoin"
+  </Tab>
+  <Tab title="Mixed">
+    "50 NVDA, 100 shares of Google, 30 Tesla, 1 ETH"
+  </Tab>
+</Tabs>
+
+Common company names are resolved automatically (Apple to AAPL, Google to GOOGL, Bitcoin to BTC, etc.).
+
+### What You Get
+
+- **Current value** for each position with real-time prices
+- **Position weights** showing what percentage each holding represents
+- **Sector breakdown** across your entire portfolio
+- **Weighted P/E** for the portfolio as a whole
+- **Concentration alerts** when any sector exceeds 40% or any single position exceeds 30%
+- **Loss alerts** when a position is down more than 50% from cost basis (if cost basis is provided)
+
+### Example Prompts
+
+- "Analyze my portfolio: 50 AAPL, 100 TSLA, 0.5 BTC"
+- "I own 200 shares of NVDA, 100 MSFT, and 50 AMZN. How does my portfolio look?"
+- "Portfolio check: 30 GOOGL, 40 META, 1000 SOL"
+
+<Tip>
+The Advisor combines data from 6+ EODHD endpoints per query, making it the most comprehensive single-query analysis available. Use it when you want a complete picture, not just a price check.
+</Tip>
+
+<Tip>
+For stocks approaching earnings, run a deep dive first. It shows the next earnings date, EPS estimates, insider activity leading up to the report, and options flow -- all in one query.
+</Tip>
+
+<Info>
+The Advisor is different from the TradFi agent and the Technical agent. Use **TradFi** for quick data lookups (current price, yield curve, calendar). Use **Technical** for indicator-based analysis (RSI, MACD, Bollinger). Use **Advisor** for comprehensive multi-section research reports.
+</Info>

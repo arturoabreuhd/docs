@@ -1,0 +1,61 @@
+---
+title: "Home — Market Overview"
+description: "A real-time snapshot of the crypto and macro landscape, updated every minute."
+---
+
+The Home page is your starting point — a single screen that answers "what's happening in the market right now?" without requiring a single click.
+
+## What you'll see
+
+The Market Overview dashboard is organized into cards, each showing a key indicator with its current value, 24-hour change, and a sparkline for recent trend.
+
+<CardGroup cols={2}>
+  <Card title="BTC Price" icon="bitcoin-sign">
+    Current Bitcoin spot price in USD with 24h percentage change. The sparkline shows intraday movement.
+  </Card>
+  <Card title="ETH Price" icon="ethereum">
+    Current Ethereum spot price in USD with 24h percentage change. Useful for gauging altcoin sentiment relative to BTC.
+  </Card>
+  <Card title="Funding Rate" icon="percent">
+    The annualized funding rate for BTC perpetual futures. Positive means longs are paying shorts (bullish crowding); negative means shorts are paying longs (bearish crowding).
+  </Card>
+  <Card title="Open Interest" icon="chart-line">
+    Total open interest in BTC futures contracts across Binance. Rising OI with rising price confirms trend conviction; rising OI with flat price signals an incoming move.
+  </Card>
+  <Card title="Positioning Score" icon="scale-balanced">
+    A long/short ratio derived from Binance Futures account data. Values above 50 indicate net long positioning; below 50 indicates net short positioning.
+  </Card>
+  <Card title="DXY (Dollar Index)" icon="dollar-sign">
+    The US Dollar Index, proxied through the Federal Reserve's trade-weighted dollar index (DTWEXBGS). A rising DXY is typically a headwind for crypto.
+  </Card>
+</CardGroup>
+
+### Reading the dashboard
+
+The cards are designed to be scanned in seconds. Focus on the **24h change** values first — they tell you what moved. Then glance at the sparklines — they tell you *how* it moved (gradual drift vs. sharp spike). If something catches your eye, open the [AI Chat](/platform/chat) and ask for a deeper explanation.
+
+<Tip>
+The funding rate is one of the most actionable numbers on this page. When funding exceeds +0.03% per 8 hours (roughly 33% annualized), the market is aggressively long and historically vulnerable to a squeeze. Conversely, deeply negative funding often marks local bottoms.
+</Tip>
+
+## Data sources
+
+| Indicator | Source | Update frequency |
+|-----------|--------|-----------------|
+| BTC Price | Binance REST — `/api/v3/ticker/24hr` | ~1 minute |
+| ETH Price | Binance REST — `/api/v3/ticker/24hr` | ~1 minute |
+| Funding Rate | Binance Futures — `/fapi/v1/fundingRate` | Every few minutes (settles every 8h) |
+| Open Interest | Binance Futures — `/fapi/v1/openInterest` | Every few minutes |
+| Positioning Score | Binance Futures — `/futures/data/globalLongShortAccountRatio` | Every few minutes |
+| DXY | Federal Reserve FRED — `DTWEXBGS` series | Daily (macro indicator) |
+
+<Note>
+All data is fetched server-side through our API and cached with appropriate TTLs. You never connect directly to Binance or FRED — the platform handles that for you.
+</Note>
+
+## Tips
+
+- **Compare BTC price direction with funding rate direction.** If price is rising but funding is flat or negative, the move has room to run. If price is rising and funding is spiking, the move is getting crowded.
+- **Watch OI divergences.** Price making new highs while OI declines means the rally is built on closing shorts, not new longs — it tends to be less durable.
+- **DXY is a slow-burn indicator.** It won't predict the next hour, but sustained DXY strength above 105 has historically correlated with crypto weakness over weeks.
+- **Use the Home page as a triage tool.** Scan it first, then ask the AI Chat for context on anything that looks unusual.

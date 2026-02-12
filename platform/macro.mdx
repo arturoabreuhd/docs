@@ -1,0 +1,73 @@
+---
+title: "Macro"
+description: "Cross-asset context — crypto prices alongside traditional market indicators and stablecoin flows."
+---
+
+The Macro page puts crypto in context by showing Bitcoin and Ethereum prices next to traditional market benchmarks and stablecoin flows — the three layers that define the environment crypto trades in.
+
+## What you'll see
+
+The dashboard is split into two sections: cross-asset prices at the top and stablecoin supply below. Together, they answer "is money flowing into risk assets, and is it reaching crypto specifically?"
+
+### Cross-Asset Overview
+
+<CardGroup cols={2}>
+  <Card title="BTC & ETH Prices" icon="bitcoin-sign">
+    Current spot prices from Binance with 24h change and sparklines. The two assets that define crypto market sentiment — BTC for macro direction, ETH for altcoin risk appetite.
+  </Card>
+  <Card title="S&P 500 (SPX)" icon="chart-line">
+    The benchmark US equity index. When SPX sells off hard, crypto rarely escapes the correlation — especially in the first 24 hours.
+  </Card>
+  <Card title="VIX (Volatility Index)" icon="bolt">
+    The market's fear gauge. VIX below 15 means complacency; above 30 means panic. Crypto tends to sell off alongside equities when VIX spikes, then decouple on the recovery.
+  </Card>
+  <Card title="DXY (Dollar Index)" icon="dollar-sign">
+    The US dollar's strength against major currencies, proxied from the Federal Reserve's trade-weighted index (DTWEXBGS). A strong dollar competes with risk assets for capital.
+  </Card>
+  <Card title="Gold (XAU)" icon="coins">
+    The traditional safe haven. When gold and BTC rise together, the narrative is "store of value." When gold rises and BTC drops, it's pure risk-off — capital is fleeing to safety, not alternatives.
+  </Card>
+</CardGroup>
+
+### Stablecoin Supply
+
+<Tabs>
+  <Tab title="What it shows">
+    Total stablecoin market capitalization and its breakdown by chain and by issuer (USDT, USDC, DAI, and others). Data comes from DefiLlama, which aggregates on-chain supply across all major blockchains.
+  </Tab>
+  <Tab title="How to read it">
+    - **Total supply growing** = new dollars entering the crypto ecosystem. This is the most direct measure of fiat-to-crypto inflows.
+    - **Total supply shrinking** = dollars leaving. Redemptions signal reduced appetite for crypto exposure.
+    - **Chain distribution shifts** = capital rotating between ecosystems. USDT dominance on Tron signals emerging-market flows; USDC dominance on Ethereum signals institutional activity.
+  </Tab>
+  <Tab title="What to watch for">
+    Stablecoin supply is a **leading indicator**. It tends to grow before major crypto rallies (capital positioning) and shrink before extended drawdowns (capital exiting). A 5%+ monthly increase in total supply historically precedes periods of positive crypto returns.
+  </Tab>
+</Tabs>
+
+<Tip>
+Stablecoin supply growth is one of the few leading indicators in crypto. When total supply expands for 2+ consecutive weeks while BTC price is flat, it often means capital is staging on the sidelines — ready to deploy but waiting for a catalyst.
+</Tip>
+
+## Data sources
+
+| Metric | Source | Update frequency |
+|--------|--------|-----------------|
+| BTC/ETH prices | Binance REST — `/api/v3/ticker/24hr` | ~1 minute |
+| S&P 500 | EODHD Real-time API | ~1 minute during market hours |
+| VIX | EODHD Real-time API | ~1 minute during market hours |
+| DXY | FRED — `DTWEXBGS` series | Daily |
+| Gold | EODHD Real-time API | ~1 minute during market hours |
+| Stablecoin supply | DefiLlama — `/stablecoins` | ~30 minutes |
+
+<Note>
+DXY is not available as a live ticker from EODHD. We proxy it through the Federal Reserve's trade-weighted dollar index (DTWEXBGS), which updates daily. For intraday dollar moves, watch USD/JPY and EUR/USD on the [Markets](/platform/markets) page instead.
+</Note>
+
+## Tips
+
+- **DXY above 105 is historically a headwind for crypto.** Sustained dollar strength compresses risk asset valuations, and crypto is not immune. Below 100, the tailwind is real — weaker dollar means more liquidity seeking returns.
+- **VIX spikes above 30 signal risk-off.** Crypto often sells off with equities during these episodes, even if the trigger is purely a traditional finance event. The correlation is highest in the first 48 hours of a VIX spike.
+- **Cross-asset divergence is rare but powerful.** If BTC is rising while SPX is falling for more than a few days, it suggests crypto is trading on its own narrative — not just following the macro tide. These periods tend to produce the strongest trending moves.
+- **Watch stablecoin supply, not just BTC price.** Price can rise on leverage alone (check [Derivatives](/platform/derivatives) for funding rates). But stablecoin supply growth means actual new dollars — that's real demand, not synthetic.
+- **Use the AI Chat for macro synthesis.** Ask "What's the current macro environment for crypto?" and the Macro Agent will pull all these indicators and synthesize them into a single directional narrative.
